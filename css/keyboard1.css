@@ -33,6 +33,7 @@ body {
 
 .keyboard_wrappEn{
 }
+
 .hidden{
  display: none;
 }
@@ -64,7 +65,6 @@ body {
 }
 
 .keyboard_wrappRu{
-    /* display: none; */
 }
 
 .keyboard_keysRu{
