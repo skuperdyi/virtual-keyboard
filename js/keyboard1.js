@@ -1,35 +1,74 @@
 const keyboard = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "backspace",
 "tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
 "capsLock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "enter",
-"shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?", "up", "delete", "switch",
+"shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "up", "delete", "switch",
+"ctrl", "alt", "space", "left", "down", "right", "win",];
+
+const keyboardCaps = ["~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "backspace",
+"tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "{", "}", "|",
+"capsLock", "A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', "enter",
+"shift", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", "up", "delete", "switch",
 "ctrl", "alt", "space", "left", "down", "right", "win",];
 
 const keyboardRu = ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "backspace",
 "tab", "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ", "\\",
-"capsLock", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э", "enter",
+"caps_Lock", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э", "enter",
 "shift", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", ".", "up", "delete", "switch",
+"ctrl", "alt", "space", "left", "down", "right", "win",];
+
+const keyboardRuCaps = ["Ё", "!", '"', "№", ";", "%", ":", "?", "*", "(", ")", "_", "+", "backspace",
+"tab", "Й", "Ц", "У", "К", "Е", "Н", "Г", "Ш", "Щ", "З", "Х", "Ъ", "/",
+"caps_Lock", "Ф", "Ы", "В", "А", "П", "Р", "О", "Л", "Д", "Ж", "Э", "enter",
+"shift", "Я", "Ч", "С", "М", "И", "Т", "Ь", "Б", "Ю", ",", "up", "delete", "switch",
 "ctrl", "alt", "space", "left", "down", "right", "win",];
 
 let container = document.createElement("div");
 let wrap = document.createElement("div");
+let wrapCaps = document.createElement("div");
 let wrapRu = document.createElement("div");
+let wrapRuCaps = document.createElement("div");
 let keyboardKeys = document.createElement("div");
+let keyboardKeysCaps = document.createElement("div");
 let keyboardKeysRu = document.createElement("div");
+let keyboardKeysRuCaps = document.createElement("div");
 let text = document.createElement("textarea");
 let script = document.getElementsByTagName('script')[0]
+let anatations = document.createElement("div")
 
 container.classList.add("container");
 wrap.classList.add("keyboard_wrapp");
 wrap.classList.add("keyboard_wrappEn");
+wrapCaps.classList.add("keyboard_wrapp");
+wrapCaps.classList.add("keyboard_wrappEnCaps");
+wrapCaps.classList.add("hidden");
 wrapRu.classList.add("keyboard_wrapp");
 wrapRu.classList.add("keyboard_wrappRu");
 wrapRu.classList.add("hidden");
+wrapRuCaps.classList.add("keyboard_wrapp");
+wrapRuCaps.classList.add("keyboard_wrappRuCaps");
+wrapRuCaps.classList.add("hidden");
+
+
+// wrapRu.id = "Ru";
+// wrap.id = "En";
+
 keyboardKeys.classList.add("keyboard_keys");
 keyboardKeys.id = "keyboard";
+keyboardKeysCaps.classList.add("keyboard_keys");
+keyboardKeysCaps.classList.add("keyboard_keysCaps");
+keyboardKeysCaps.id = "keyboardCaps";
 keyboardKeysRu.classList.add("keyboard_keys");
 keyboardKeysRu.classList.add("keyboard_keysRu");
-
 keyboardKeysRu.id = "keyboardRu";
+keyboardKeysRuCaps.classList.add("keyboard_keys");
+keyboardKeysRuCaps.classList.add("keyboard_keysRuCaps");
+keyboardKeysRuCaps.id = "keyboardRuCaps";
+anatations.classList.add("anatations");
+
+
+anatations.innerHTML = "Добрый день. Для переключения языка используйте клавишу switch (нижний правый угол). Для работы подсветки так же нужно переключить язык и на вашей системе, что-бы он совпадал с языком на виртуальной клавиатуре. Ввод можно производить и с реальной и с виртуальной клавиатуры. Языки En и Ru"
+
+
 text.classList.add("text");
 text.id = "text";
 
@@ -37,9 +76,14 @@ text.id = "text";
 document.body.insertBefore(container, script);
 container.appendChild(wrap);
 container.appendChild(wrapRu);
+container.appendChild(wrapCaps);
+container.appendChild(wrapRuCaps);
 wrap.appendChild(keyboardKeys);
+wrapCaps.appendChild(keyboardKeysCaps);
 wrapRu.appendChild(keyboardKeysRu);
+wrapRuCaps.appendChild(keyboardKeysRuCaps);
 container.appendChild(text);
+container.appendChild(anatations);
 
 
 
@@ -65,6 +109,24 @@ function initRu() {
 }
 initRu();
 
+function initCaps() {
+    let out = "";
+    for (let i = 0; i < keyboard.length; i++) {
+          out += `<button class="keys ${keyboard[i]}_key" dataRu="`+keyboardRu[i]+`" onmousedown="alerted(this.id)" onmouseup="noAlerted(this.id)">`+keyboardCaps[i]+'</button>';
+    }
+    document.querySelector('#keyboardCaps').innerHTML = out
+}
+initCaps();
+
+function initRuCaps() {
+    let out = "";
+    for (let i = 0; i < keyboard.length; i++) {
+          out += `<button class="keys ${keyboard[i]}_key" dataRu="`+keyboardRu[i]+`" onmousedown="alerted(this.id)" onmouseup="noAlerted(this.id)">`+keyboardRuCaps[i]+'</button>';
+    }
+    document.querySelector('#keyboardRuCaps').innerHTML = out
+}
+initRuCaps();
+
 
 let keys = document.querySelectorAll('.keys');
 let tabKey = document.querySelector('.tab_key');
@@ -82,17 +144,25 @@ let rightKey = document.querySelector('.right_key');
 let upKey = document.querySelector('.up_key');
 let downKey = document.querySelector('.down_key');
 
+el = document.getElementById("main");
+
 let border = document.getElementsByClassName("border_active");
 
 let capsKey = document.querySelector('.capsLock_key');
 
-let RuKey = document.querySelector('.keyboard_wrappRu');
-let EnKey = document.querySelector('.keyboard_wrappEn');
+let Rumba = document.querySelector('.keyboard_wrappRu')
+let Enmba = document.querySelector('.keyboard_wrappEn')
+let EnmbaCaps = document.querySelector('.keyboard_wrappEnCaps')
+let RumbaCaps = document.querySelector('.keyboard_wrappRuCaps')
+
+// let RuKey = document.getElementById("Ru");
+// let EnKey = document.getElementById("En");
 
 
 for(let i = 0; i < keys.length; i++) {
     keys[i].setAttribute('id', keys[i].innerText);
     keys[i].setAttribute('UpCaseName', keys[i].innerText.toUpperCase());
+    keys[i].setAttribute('LowCaseName', keys[i].innerText.toLowerCase());
 }
 
 
@@ -101,14 +171,46 @@ for(let i = 0; i < keys.length; i++) {
  
 function alerted(thisid) {
     document.getElementById(thisid).classList.add("active");
+    if(document.getElementById(thisid).id == 'capsLock'){
+        if(EnmbaCaps.classList.contains('hidden')){
+                Enmba.classList.add('hidden')
+                Rumba.classList.add('hidden')
+                RumbaCaps.classList.add('hidden')
+                EnmbaCaps.classList.remove('hidden')
+                }
+        else if(Enmba.classList.contains('hidden')){
+                EnmbaCaps.classList.add('hidden')
+                RumbaCaps.classList.add('hidden')
+                Rumba.classList.add('hidden')
+                Enmba.classList.remove('hidden')
+                }
+    }
+    if(document.getElementById(thisid).id == 'caps_Lock'){
+         if(RumbaCaps.classList.contains('hidden')){
+            Enmba.classList.add('hidden')
+            Rumba.classList.add('hidden')
+            EnmbaCaps.classList.add('hidden')
+            RumbaCaps.classList.remove('hidden')
+            }
+        else if(Rumba.classList.contains('hidden')){
+            EnmbaCaps.classList.add('hidden')
+            RumbaCaps.classList.add('hidden')
+            Enmba.classList.add('hidden')
+            Rumba.classList.remove('hidden')
+            }
+    }
     if(document.getElementById(thisid).id == 'switch'){
-        if(RuKey.classList.contains('hidden')){
-        EnKey.classList.add('hidden')
-        RuKey.classList.remove('hidden')
+        if(Rumba.classList.contains('hidden')){
+        Enmba.classList.add('hidden')
+        EnmbaCaps.classList.add('hidden')
+        RumbaCaps.classList.add('hidden')
+        Rumba.classList.remove('hidden')
         }
-        if(EnKey.classList.contains('hidden')){
-            RuKey.classList.add('hidden')
-            EnKey.classList.remove('hidden')
+        else if(Enmba.classList.contains('hidden')){
+            Rumba.classList.add('hidden')
+            EnmbaCaps.classList.add('hidden')
+            RumbaCaps.classList.add('hidden')
+            Enmba.classList.remove('hidden')
             }
     }
     if(document.getElementById(thisid).id == 'tab'){
@@ -125,7 +227,6 @@ function alerted(thisid) {
     }
     if(document.getElementById(thisid).id == 'space'){
         text.value += " "
-        // text.value += document.body.dispatchEvent(ke)
     }
     if(document.getElementById(thisid).id == 'capsLock'){
         text.value += ""
@@ -171,7 +272,7 @@ function alerted(thisid) {
   
 window.addEventListener('keydown', function(e) {
     for(let i = 0; i < keys.length; i++) {
-        if(e.key == keys[i].getAttribute('id') || e.key == keys[i].getAttribute('UpCaseName')) {
+        if(e.key == keys[i].getAttribute('id') || e.key == keys[i].getAttribute('UpCaseName')|| e.key == keys[i].getAttribute('LowCaseName')) {
             keys[i].classList.add('active')
         }
         if(e.code == 'Tab') {
@@ -226,7 +327,7 @@ window.addEventListener('keydown', function(e) {
 
 window.addEventListener('keyup', function(e) {
     for(let i = 0; i < keys.length; i++) {
-        if(e.key == keys[i].getAttribute('id' ) || e.key == keys[i].getAttribute('UpCaseName')) {
+        if(e.key == keys[i].getAttribute('id' ) || e.key == keys[i].getAttribute('UpCaseName')|| e.key == keys[i].getAttribute('LowCaseName')) {
             keys[i].classList.remove('active')
             // keys[i].classList.add('remove')
         }
